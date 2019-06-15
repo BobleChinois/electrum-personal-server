@@ -1,0 +1,32 @@
+version: "3"
+services:
+  bitcoind:
+    restart: unless-stopped
+    container_name: bitcoind
+    image: sosthenebitcoin/bitcoind:latest
+    ports:
+      - "47382:47382"
+      - "39388:39388"
+    volumes:
+      - "bitcoin_datadir:/data"
+    networks:
+      - bitcoind
+  eps:
+    restart: unless-stopped
+    container_name: eps
+    image: sosthenebitcoin/eps:0.1
+    environment:
+      MASTERPUBKEY:
+    ports:
+      - "50002:50002"
+    volumes:
+     #- "bitcoin_datadir:/data/.bitcoin"
+      - "eps_datadir:/data"
+    networks:
+      - bitcoind
+volumes:
+  bitcoin_datadir:
+  eps_datadir:
+networks:
+  bitcoind:
+    driver: "bridge"
