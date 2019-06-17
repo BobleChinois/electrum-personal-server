@@ -4,29 +4,24 @@ services:
     restart: unless-stopped
     container_name: bitcoind
     image: sosthenebitcoin/bitcoind:latest
+    command: "bitcoind -testnet -server -rpcbind=bitcoind -rpcuser=eps -rpcpassword=this_is_a_fixed_password -rpcport=47382 -rpcallowip=0.0.0.0/0"
     ports:
       - "47382:47382"
       - "39388:39388"
     volumes:
       - "bitcoin_datadir:/data"
-    networks:
-      - bitcoind
   eps:
+    depends_on:
+      - bitcoind
     restart: unless-stopped
     container_name: eps
-    image: sosthenebitcoin/eps:0.1
-    environment:
-      MASTERPUBKEY:
+    image: sosthenebitcoin/eps:latest
+    command: "python3 launch.py $MASTERPUBKEY"
     ports:
       - "50002:50002"
     volumes:
      #- "bitcoin_datadir:/data/.bitcoin"
       - "eps_datadir:/data"
-    networks:
-      - bitcoind
 volumes:
   bitcoin_datadir:
   eps_datadir:
-networks:
-  bitcoind:
-    driver: "bridge"

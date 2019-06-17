@@ -7,7 +7,6 @@ COPY . /electrum-personal-server/
 #WORKDIR /electrum-personal-server/
 
 RUN ["pip3", "install", "--trusted-host", "pypi.python.org", "-r", "requirements.txt"] 
-#RUN ["pip3", "install", "configparser"] 
 RUN ["pip3", "install", "."] 
 
 EXPOSE 50002
