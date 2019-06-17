@@ -18,5 +18,4 @@ config['master-public-keys']['one'] =  str(masterpubkey)
 with open('config.ini', 'w') as configfile:
     config.write(configfile)
 
-run(['cat', 'config.ini'])
 run(['electrum-personal-server', 'config.ini'])
